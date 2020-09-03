@@ -1,0 +1,18 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SchoolsLanguage.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="MainFont" Type="System.Drawing.Font" Scope="Application">
+      <Value Profile="(Default)">Comic Sans MS, 8.25pt</Value>
+    </Setting>
+    <Setting Name="FirstColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SecondColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">231, 250, 191</Value>
+    </Setting>
+    <Setting Name="AttentionColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">4, 160, 255</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

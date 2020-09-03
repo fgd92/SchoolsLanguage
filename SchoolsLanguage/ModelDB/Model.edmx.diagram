@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f49e4c98cfe74bcf8f0145ca4cb687b8" Name="Diagram1">
+        <EntityTypeShape EntityType="Db1Model.Client" Width="1.5" PointX="0.75" PointY="10.5" />
+        <EntityTypeShape EntityType="Db1Model.ClientService" Width="1.5" PointX="3" PointY="9.25" />
+        <EntityTypeShape EntityType="Db1Model.DocumentByService" Width="1.5" PointX="5.25" PointY="9.75" />
+        <EntityTypeShape EntityType="Db1Model.Gender" Width="1.5" PointX="1.5" PointY="15.625" />
+        <EntityTypeShape EntityType="Db1Model.Manufacturer" Width="1.5" PointX="0.75" PointY="2.625" />
+        <EntityTypeShape EntityType="Db1Model.Product" Width="1.5" PointX="3" PointY="1.875" />
+        <EntityTypeShape EntityType="Db1Model.ProductPhoto" Width="1.5" PointX="5.25" PointY="5.75" />
+        <EntityTypeShape EntityType="Db1Model.ProductSale" Width="1.5" PointX="5.25" PointY="2.375" />
+        <EntityTypeShape EntityType="Db1Model.Service" Width="1.5" PointX="0.75" PointY="7" />
+        <EntityTypeShape EntityType="Db1Model.ServicePhoto" Width="1.5" PointX="3" PointY="6.5" />
+        <EntityTypeShape EntityType="Db1Model.sysdiagrams" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Db1Model.Tag" Width="1.5" PointX="1.75" PointY="21.5" />
+        <EntityTypeShape EntityType="Db1Model.TagOfClient" Width="1.5" PointX="4" PointY="13.375" />
+        <EntityTypeShape EntityType="Db1Model.VisitInfo" Width="1.5" PointX="3" PointY="18.125" />
+        <AssociationConnector Association="Db1Model.FK_Client_Gender" />
+        <AssociationConnector Association="Db1Model.FK_ClientService_Client" />
+        <AssociationConnector Association="Db1Model.FK_TagOfClient_Client1" />
+        <AssociationConnector Association="Db1Model.FK_VisitInfo_Client" />
+        <AssociationConnector Association="Db1Model.FK_ClientService_Service" />
+        <AssociationConnector Association="Db1Model.FK_DocumentByService_ClientService" />
+        <AssociationConnector Association="Db1Model.FK_ProductSale_ClientService" />
+        <AssociationConnector Association="Db1Model.FK_Product_Manufacturer" />
+        <AssociationConnector Association="Db1Model.FK_ProductPhoto_Product" />
+        <AssociationConnector Association="Db1Model.FK_ProductSale_Product" />
+        <AssociationConnector Association="Db1Model.FK_ServicePhoto_Service" />
+        <AssociationConnector Association="Db1Model.FK_TagOfClient_Tag1" />
+        <AssociationConnector Association="Db1Model.AttachedProduct" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

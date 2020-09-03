@@ -1,0 +1,350 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B25F0FA1-826B-4EBD-87CC-0E49D46433A0}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>SchoolsLanguage</RootNamespace>
+    <AssemblyName>SchoolsLanguage</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.7.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\BaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\ClientsModel.cs" />
+    <Compile Include="Classes\Extensions.cs" />
+    <Compile Include="Forms\addTag.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\addTag.Designer.cs">
+      <DependentUpon>addTag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Client.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Client.Designer.cs">
+      <DependentUpon>Client.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Menu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Menu.Designer.cs">
+      <DependentUpon>Menu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\VisitsInfoOfClient.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\VisitsInfoOfClient.Designer.cs">
+      <DependentUpon>VisitsInfoOfClient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModelDB\Client.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelDB\ClientService.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelDB\DocumentByService.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelDB\Gender.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelDB\Manufacturer.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelDB\Model.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelDB\Model.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelDB\Model.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="ModelDB\Product.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelDB\ProductPhoto.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelDB\ProductSale.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelDB\Service.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelDB\ServicePhoto.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelDB\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelDB\sp_helpdiagrams_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelDB\sysdiagrams.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelDB\Tag.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelDB\TagOfClient.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelDB\VisitInfo.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="UserControls\Buttons.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\Buttons.Designer.cs">
+      <DependentUpon>Buttons.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Clients.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\Clients.Designer.cs">
+      <DependentUpon>Clients.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\VisitInfo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\VisitInfo.Designer.cs">
+      <DependentUpon>VisitInfo.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Forms\addTag.resx">
+      <DependentUpon>addTag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Client.resx">
+      <DependentUpon>Client.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Menu.resx">
+      <DependentUpon>Menu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\VisitsInfoOfClient.resx">
+      <DependentUpon>VisitsInfoOfClient.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="UserControls\Buttons.resx">
+      <DependentUpon>Buttons.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\Clients.resx">
+      <DependentUpon>Clients.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\VisitInfo.resx">
+      <DependentUpon>VisitInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EntityDeploy Include="ModelDB\Model.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="ModelDB\Model.edmx.diagram">
+      <DependentUpon>Model.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\DataSources\SchoolsLanguage.ModelDB.Client.datasource" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\school_logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ModelDB\Model.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Model.Context.cs</LastGenOutput>
+      <DependentUpon>Model.edmx</DependentUpon>
+    </Content>
+    <Content Include="ModelDB\Model.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model.edmx</DependentUpon>
+      <LastGenOutput>Model.cs</LastGenOutput>
+    </Content>
+    <None Include="Resources\school_logo.png" />
+    <Content Include="Resources\Клиенты\1.jpg" />
+    <Content Include="Resources\Клиенты\10.jpg" />
+    <Content Include="Resources\Клиенты\11.jpg" />
+    <Content Include="Resources\Клиенты\12.jpg" />
+    <Content Include="Resources\Клиенты\13.jpg" />
+    <Content Include="Resources\Клиенты\14.jpg" />
+    <Content Include="Resources\Клиенты\15.jpg" />
+    <Content Include="Resources\Клиенты\16.jpg" />
+    <Content Include="Resources\Клиенты\17.jpg" />
+    <Content Include="Resources\Клиенты\18.jpg" />
+    <Content Include="Resources\Клиенты\19.jpg" />
+    <Content Include="Resources\Клиенты\2.jpg" />
+    <Content Include="Resources\Клиенты\20.jpg" />
+    <Content Include="Resources\Клиенты\21.jpg" />
+    <Content Include="Resources\Клиенты\22.jpg" />
+    <Content Include="Resources\Клиенты\23.jpg" />
+    <Content Include="Resources\Клиенты\24.jpg" />
+    <Content Include="Resources\Клиенты\25.jpg" />
+    <Content Include="Resources\Клиенты\26.jpg" />
+    <Content Include="Resources\Клиенты\27.jpg" />
+    <Content Include="Resources\Клиенты\28.jpg" />
+    <Content Include="Resources\Клиенты\29.jpg" />
+    <Content Include="Resources\Клиенты\3.jpg" />
+    <Content Include="Resources\Клиенты\30.jpg" />
+    <Content Include="Resources\Клиенты\31.jpg" />
+    <Content Include="Resources\Клиенты\32.jpg" />
+    <Content Include="Resources\Клиенты\33.jpg" />
+    <Content Include="Resources\Клиенты\34.jpg" />
+    <Content Include="Resources\Клиенты\35.jpg" />
+    <Content Include="Resources\Клиенты\36.jpg" />
+    <Content Include="Resources\Клиенты\37.jpg" />
+    <Content Include="Resources\Клиенты\38.jpg" />
+    <Content Include="Resources\Клиенты\39.jpg" />
+    <Content Include="Resources\Клиенты\4.jpg" />
+    <Content Include="Resources\Клиенты\40.jpg" />
+    <Content Include="Resources\Клиенты\41.jpg" />
+    <Content Include="Resources\Клиенты\42.jpg" />
+    <Content Include="Resources\Клиенты\43.jpg" />
+    <Content Include="Resources\Клиенты\44.jpg" />
+    <Content Include="Resources\Клиенты\47.jpg" />
+    <Content Include="Resources\Клиенты\48.jpg" />
+    <Content Include="Resources\Клиенты\5.jpg" />
+    <Content Include="Resources\Клиенты\6.jpg" />
+    <Content Include="Resources\Клиенты\7.jpg" />
+    <Content Include="Resources\Клиенты\8.jpg" />
+    <Content Include="Resources\Клиенты\9.jpg" />
+    <Content Include="Resources\Клиенты\m1.jpg" />
+    <Content Include="Resources\Клиенты\m10.jpg" />
+    <Content Include="Resources\Клиенты\m11.jpg" />
+    <Content Include="Resources\Клиенты\m12.jpg" />
+    <Content Include="Resources\Клиенты\m13.jpg" />
+    <Content Include="Resources\Клиенты\m14.jpg" />
+    <Content Include="Resources\Клиенты\m15.jpg" />
+    <Content Include="Resources\Клиенты\m16.jpg" />
+    <Content Include="Resources\Клиенты\m17.jpg" />
+    <Content Include="Resources\Клиенты\m18.jpg" />
+    <Content Include="Resources\Клиенты\m19.jpg" />
+    <Content Include="Resources\Клиенты\m2.jpg" />
+    <Content Include="Resources\Клиенты\m20.jpg" />
+    <Content Include="Resources\Клиенты\m21.jpg" />
+    <Content Include="Resources\Клиенты\m22.jpg" />
+    <Content Include="Resources\Клиенты\m23.jpg" />
+    <Content Include="Resources\Клиенты\m24.jpg" />
+    <Content Include="Resources\Клиенты\m25.jpg" />
+    <Content Include="Resources\Клиенты\m26.jpg" />
+    <Content Include="Resources\Клиенты\m27.jpg" />
+    <Content Include="Resources\Клиенты\m28.jpg" />
+    <Content Include="Resources\Клиенты\m29.jpg" />
+    <Content Include="Resources\Клиенты\m3.jpg" />
+    <Content Include="Resources\Клиенты\m30.jpg" />
+    <Content Include="Resources\Клиенты\m31.jpg" />
+    <Content Include="Resources\Клиенты\m32.jpg" />
+    <Content Include="Resources\Клиенты\m33.jpg" />
+    <Content Include="Resources\Клиенты\m34.jpg" />
+    <Content Include="Resources\Клиенты\m35.jpg" />
+    <Content Include="Resources\Клиенты\m36.jpg" />
+    <Content Include="Resources\Клиенты\m37.jpg" />
+    <Content Include="Resources\Клиенты\m38.jpg" />
+    <Content Include="Resources\Клиенты\m39.jpg" />
+    <Content Include="Resources\Клиенты\m4.jpg" />
+    <Content Include="Resources\Клиенты\m40.jpg" />
+    <Content Include="Resources\Клиенты\m41.jpg" />
+    <Content Include="Resources\Клиенты\m42.jpg" />
+    <Content Include="Resources\Клиенты\m43.jpg" />
+    <Content Include="Resources\Клиенты\m44.jpg" />
+    <Content Include="Resources\Клиенты\m45.jpg" />
+    <Content Include="Resources\Клиенты\m46.jpg" />
+    <Content Include="Resources\Клиенты\m47.jpg" />
+    <Content Include="Resources\Клиенты\m48.jpg" />
+    <Content Include="Resources\Клиенты\m49.jpg" />
+    <Content Include="Resources\Клиенты\m5.jpg" />
+    <Content Include="Resources\Клиенты\m50.jpg" />
+    <Content Include="Resources\Клиенты\m6.jpg" />
+    <Content Include="Resources\Клиенты\m7.jpg" />
+    <Content Include="Resources\Клиенты\m8.jpg" />
+    <Content Include="Resources\Клиенты\m9.jpg" />
+    <Content Include="Resources\Клиенты\m96.jpg" />
+    <Content Include="Resources\Клиенты\m97.jpg" />
+    <Content Include="Resources\Клиенты\m98.jpg" />
+    <Content Include="Resources\Клиенты\m99.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
