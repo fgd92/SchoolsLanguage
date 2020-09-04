@@ -7,38 +7,103 @@ using System.Threading.Tasks;
 
 namespace SchoolsLanguage.Classes
 {
-    class ClientsModel
+    public class ClientsModel
     {
-        public List<dynamic> GetClient(Func<Client, bool> filter)
+        /// <summary>
+        /// Максимальное количество строк которое нужно получить
+        /// </summary>
+        public int MaxTakeRows { get; set; }
+        /// <summary>
+        ///  Максимальное количество строк которое нужно пропустить
+        /// </summary>
+        public int MaxSkipRows { get; set; }
+
+        public int MaxRows { get; set; }
+
+        private int page;
+        private int maxPage;
+
+        public int GetPage()
+        {
+            return page;
+        }
+
+        public void SetPage(int value)
+        {
+            MaxSkipRows = MaxTakeRows * value;
+            page = value;
+        }
+
+        public void NextPage()
+        {
+            if (page + 1 < maxPage)
+                SetPage(page + 1);
+        }
+        public void PrevPage()
+        {
+            if (page - 1 >= 0)
+                SetPage(page - 1);
+        }
+        public ClientsModel(int maxTakeRows)
+        {
+            MaxRows = Count();
+            MaxTakeRows = maxTakeRows;
+            maxPage = MaxRows / maxTakeRows;
+            SetPage(0);
+        }
+        /// <summary>
+        /// Возвращает список клиентов
+        /// </summary>
+        /// <param name="predicate">Фильтрация</param>
+        /// <param name="countSkipRows">Количество пропускаемых строк</param>
+        /// <returns></returns>
+        public IEnumerable<ClientView> Get(Func<Client, bool> predicate)
         {
             using (DataBaseEntities db = new DataBaseEntities())
             {
-                return db.Client.Where(filter).Skip(page * countRows).
-                          Take(Math.Abs(countRows)).ToList().ForEach(cl =>
-                          {
-                              data_clients.Rows.Add(
-                                  cl.ID,
-                                  cl.FirstName,
-                                  cl.LastName,
-                                  cl.Patronymic,
-                                  cl.Gender?.Name,
-                                  cl?.Birthday == null ? "" : cl.Birthday.Value.ToString(),
-                                  cl.Phone,
-                                  cl.Email,
-                                  cl.RegistrationDate,
-                                  cl.VisitInfo.FirstOrDefault()?.DateLastVisit,
-                                  cl.VisitInfo.FirstOrDefault()?.CountVisit,
-                                  cl.TagOfClient.Select(t => t.Tag).FirstOrDefault()?.Title);
+                if (MaxSkipRows != db.Client.Count())
+                {
+                    var list = db.Client.Include("ClientService").Include("TagOfClient").ToList()
+                        .Where(predicate).Skip(MaxSkipRows)
+                        .Take(MaxTakeRows).ToList();
 
-                              Tag tag = db.Client.FirstOrDefault(c => c.ID == cl.ID)
-                              .TagOfClient.Select(t => t.Tag).FirstOrDefault();
-                              Color color = Color.White;
-                              if (tag != null)
-                                  color = ColorTranslator.FromHtml(String.Concat(tag?.Color?.Prepend('#')));
-
-                              data_clients[data_clients.Columns.Count - 1,
-                              data_clients.Rows.Count - 1].Style.BackColor = color;
-                          });
+                    foreach (var item in list)
+                    {
+                        ClientView clientService = new ClientView(item);
+                        yield return clientService;
+                    }
+                }
+            }
+        }
+        public IEnumerable<ClientView> SortAscending(Func<Client,bool> predicate,Func<ClientView,string> keySelector)
+        {
+            return Get(predicate).OrderBy(keySelector);
+        }
+        public IEnumerable<ClientView> SortDescending(Func<Client, bool> predicate, Func<ClientView, string> keySelector)
+        {
+            return Get(predicate).OrderByDescending(keySelector);
+        }
+        /// <summary>
+        /// Возвращает количество клиентов до указаного ID
+        /// </summary>
+        /// <param name="predicate">Фильтрация</param>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        public int Count(Func<Client, bool> predicate, int ID)
+        {
+            using (DataBaseEntities db = new DataBaseEntities())
+            {
+                return db.Client.Where(predicate).OrderBy(c => c.ID).Count(c => c.ID <= ID);
+            }
+        }
+        /// <summary>
+        /// Возвращает количество клиентов
+        /// </summary>
+        public int Count()
+        { 
+            using(DataBaseEntities db = new DataBaseEntities())
+            {
+                return db.Client.Count();
             }
         }
     }

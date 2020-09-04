@@ -11,102 +11,34 @@ using SchoolsLanguage.ModelDB;
 using System.Diagnostics;
 using System.Windows.Threading;
 using SchoolsLanguage.Classes;
+using System.Collections;
 
 namespace SchoolsLanguage.UserControls
 {
     
     public partial class Clients : UserControl
     {
-        int page = 0;
-        int MaxPage = 0;
         Func<Client, bool> filter;
-        public int MaxCountRows { get; set; }
-        Dispatcher dispatcher;
         AutoCompleteStringCollection nameSource;
         AutoCompleteStringCollection emailSource;
         AutoCompleteStringCollection phoneNumberSource;
-
-        public int Page
-        {
-            get
-            {
-                return page;
-            }
-            set
-            {
-                page = value;
-            }
-        }
+        ClientsModel clientsModel;
 
         public Clients()
         {
             InitializeComponent();
-            data_clients.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+            filter = c => c.ID != null;
+            dgv_client.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
             status.BackColor = Properties.Settings.Default.SecondColor;
-            dispatcher = Dispatcher.CurrentDispatcher;
-        }
 
-        private void Fill_data_clients(int page, int countRows)
-        {
-            using (DataBaseEntities db = new DataBaseEntities())
+            ArrayList arrayList = new ArrayList(Controls.Cast<Control>().OrderBy(c => c.Top).ToArray());
+
+            for (int i = 0; i < arrayList.Count; i++)
             {
-                if (page != db.Client.Count())
-                {
-                    data_clients.Rows.Clear();
-
-                    db.Client.Where(filter).Skip(page * countRows).
-                        Take(Math.Abs(countRows)).ToList().ForEach(cl =>
-                        {
-                            data_clients.Rows.Add(
-                                cl.ID,
-                                cl.FirstName,
-                                cl.LastName,
-                                cl.Patronymic,
-                                cl.Gender?.Name,
-                                cl?.Birthday == null ? "" : cl.Birthday.Value.ToString(),
-                                cl.Phone,
-                                cl.Email,
-                                cl.RegistrationDate,
-                                cl.VisitInfo.FirstOrDefault()?.DateLastVisit,
-                                cl.VisitInfo.FirstOrDefault()?.CountVisit,
-                                cl.TagOfClient.Select(t => t.Tag).FirstOrDefault()?.Title);
-
-                            Tag tag = db.Client.FirstOrDefault(c => c.ID == cl.ID)
-                            .TagOfClient.Select(t => t.Tag).FirstOrDefault();
-                            Color color = Color.White;
-                            if (tag != null)
-                                color = ColorTranslator.FromHtml(String.Concat(tag?.Color?.Prepend('#')));
-
-                            data_clients[data_clients.Columns.Count - 1,
-                            data_clients.Rows.Count - 1].Style.BackColor = color;
-                        });
-
-                    if (data_clients.RowCount > 0)
-                    {
-                        int lastID = (int)data_clients[0, data_clients.RowCount - 1].Value;
-
-                        status.Items[0].Text = string.Format("{0} из {1}",
-                            db.Client.Where(filter).Count(c => c.ID <= lastID), db.Client.Count());
-                    }
-                }
+                ((Control)arrayList[i]).TabIndex = i;
             }
-        }
-        private void Create_columns()
-        {
-            data_clients.Columns.Add("ID", "Идентификатор");
-            data_clients.Columns.Add("FirstName", "Имя");
-            data_clients.Columns.Add("LastName", "Фамилия");
-            data_clients.Columns.Add("Patronymic", "Отчество");
-            data_clients.Columns.Add("Gender", "Пол");
-            data_clients.Columns.Add("Birthday", "День рождения");
-            data_clients.Columns.Add("Phone", "Телефон");
-            data_clients.Columns.Add("Email", "Эл. почта");
-            data_clients.Columns.Add("RegistrationDate", "Дата регистрации");
-            data_clients.Columns.Add("DateLastVisit", "Последнее посещение");
-            data_clients.Columns.Add("CountVisit", "Количесво посещений");
-            data_clients.Columns.Add("Tag", "Список тегов");
-            data_clients.Columns[0].Visible = false;
         }
 
         private void btn_update_Click(object sender, EventArgs e)
@@ -116,17 +48,17 @@ namespace SchoolsLanguage.UserControls
 
         private void Update_data_clients()
         {
-            Calculate_pages();
-            Fill_data_clients(0, (int)num_countRowsOnPage.Value);
+            UpdateData();
         }
 
         private void Clients_Load(object sender, EventArgs e)
         {
-            Create_columns();
-            num_countRowsOnPage.Value = Math.Round((decimal)data_clients.Size.Height / data_clients.RowTemplate.Height, 0, MidpointRounding.AwayFromZero) - 2;
-            Calculate_pages();
+            num_countRowsOnPage.Value = Math.Round((decimal)dgv_client.Size.Height / dgv_client.RowTemplate.Height, 0, MidpointRounding.AwayFromZero) - 2;
+            clientsModel = new ClientsModel((int)num_countRowsOnPage.Value);
+            num_countRowsOnPage.Maximum = clientsModel.MaxRows;
 
             Fill_autoCompleteString();
+
             cmb_countVisit.SelectedIndex = 0;
             cmb_lastName.SelectedIndex = 0;
             cmb_dateVisit.SelectedIndex = 0;
@@ -155,31 +87,16 @@ namespace SchoolsLanguage.UserControls
             }
         }
 
-        private void Calculate_pages()
-        {
-            using (DataBaseEntities db = new DataBaseEntities())
-            {
-                MaxCountRows = db.Client.Count();
-                num_countRowsOnPage.Maximum = MaxCountRows;
-                MaxPage = MaxCountRows / (int)num_countRowsOnPage.Value - 1;
-                Page = 0;
-            }
-        }
-
         private void btn_next_Click(object sender, EventArgs e)
         {
-            if (Page <= MaxPage)
-            {
-                Fill_data_clients(++Page, (int)num_countRowsOnPage.Value);
-            }
+            clientsModel.NextPage();
+            UpdateData();
         }
 
         private void btn_prev_Click(object sender, EventArgs e)
         {
-            if (Page > 0)
-            {
-                Fill_data_clients(--Page, (int)num_countRowsOnPage.Value);
-            }
+            clientsModel.PrevPage();
+            UpdateData();
         }
 
         private void filter_changed(object sender, EventArgs e)
@@ -191,18 +108,23 @@ namespace SchoolsLanguage.UserControls
             UpdateBySort(sender);
         }
 
-        private void UpdateBySort(object sender) 
+        private void UpdateBySort(object sender)
         {
             ComboBox comboBox = (ComboBox)sender;
 
             if (comboBox.SelectedItem.ToString() != "Нет")
             {
-                data_clients.Sort(data_clients.Columns[comboBox.Tag.ToString()],
-                cmb_lastName.SelectedItem.ToString() == "По возрастанию" ? ListSortDirection.Ascending : ListSortDirection.Descending);
+                string fieldName = comboBox.Tag.ToString();
+
+                Func<ClientView,string> func = c => typeof(ClientView).GetProperty(fieldName).GetValue(c)?.ToString();
+
+                dgv_client.DataSource = cmb_lastName.SelectedItem.ToString() == "По возрастанию" ?
+                    clientsModel.SortAscending(filter, func).ToList()
+                    : clientsModel.SortDescending(filter, func).ToList();
             }
             else
             {
-                data_clients.Sort(data_clients.Columns["ID"], ListSortDirection.Ascending);
+                UpdateData();
             }
         }
 
@@ -223,7 +145,7 @@ namespace SchoolsLanguage.UserControls
                 && c.Phone.isMatch(txt_phone.Text);
             }
 
-            Fill_data_clients(Page, (int)num_countRowsOnPage.Value);
+            UpdateData();
         }
 
         private void btn_showBirthDay_Click(object sender, EventArgs e)
@@ -233,9 +155,12 @@ namespace SchoolsLanguage.UserControls
                 filter = c => c.Birthday.Value.Month == DateTime.Now.Month;
             }
 
-            Fill_data_clients(Page, (int)num_countRowsOnPage.Value);
+            UpdateData();
         }
-
+        void UpdateData()
+        {
+            dgv_client.DataSource = clientsModel.Get(filter).ToList(); 
+        }
         private void btn_delete_Click(object sender, EventArgs e)
         {
             Delete_client();
@@ -248,7 +173,7 @@ namespace SchoolsLanguage.UserControls
             {
                 using (DataBaseEntities db = new DataBaseEntities())
                 {
-                    int ID = (int)data_clients[0, data_clients.SelectedRows[0].Index].Value;
+                    int ID = (int)dgv_client[0, dgv_client.SelectedRows[0].Index].Value;
                     var client = db.Client.FirstOrDefault(c => c.ID == ID);
 
                     if (client.VisitInfo.Count > 0)
@@ -268,7 +193,7 @@ namespace SchoolsLanguage.UserControls
                         }
 
                         db.SaveChanges();
-                        Fill_data_clients(Page, (int)num_countRowsOnPage.Value);
+                        UpdateData();
                     }
                 }
             }
@@ -276,16 +201,29 @@ namespace SchoolsLanguage.UserControls
 
         private void btn_edit_Click(object sender, EventArgs e)
         {
-            Forms.Client client = new Forms.Client((int)data_clients[0, data_clients.SelectedRows[0].Index].Value);
+            Forms.Client client = new Forms.Client((int)dgv_client[0, dgv_client.SelectedRows[0].Index].Value);
             client.ShowDialog();
-            Fill_data_clients(Page, (int)num_countRowsOnPage.Value);
+            UpdateData();
         }
 
         private void btn_add_Click(object sender, EventArgs e)
         {
             Forms.Client client = new Forms.Client();
             client.ShowDialog();
-            Fill_data_clients(Page, (int)num_countRowsOnPage.Value);
+            UpdateData();
+        }
+
+        private void data_clients_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            status.Items[0].Text = dgv_client.RowCount > 0 ? string.Format("{0} из {1}",
+                        clientsModel.Count(filter, ID: (int)dgv_client[0, dgv_client.RowCount - 1].Value),
+                        clientsModel.Count()) : null;
+        }
+
+        private void num_countRowsOnPage_ValueChanged(object sender, EventArgs e)
+        {
+            if(clientsModel != null)
+                clientsModel.MaxTakeRows = (int)num_countRowsOnPage.Value;
         }
     }
 }

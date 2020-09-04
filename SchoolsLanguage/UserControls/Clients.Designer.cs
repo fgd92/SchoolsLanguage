@@ -28,7 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.data_clients = new System.Windows.Forms.DataGridView();
+            this.components = new System.ComponentModel.Container();
+            this.dgv_client = new System.Windows.Forms.DataGridView();
             this.tableLayout = new System.Windows.Forms.TableLayoutPanel();
             this.btn_prev = new System.Windows.Forms.Button();
             this.btn_next = new System.Windows.Forms.Button();
@@ -60,7 +61,20 @@
             this.txt_name = new System.Windows.Forms.TextBox();
             this.btn_delete = new System.Windows.Forms.Button();
             this.btn_add = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.data_clients)).BeginInit();
+            this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.firstNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lastNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.patronymicDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.birthdayDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.phoneDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.emailDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.registrationDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dateLastVisitDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.countVisitDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.titleDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clientViewBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_client)).BeginInit();
             this.tableLayout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_countRowsOnPage)).BeginInit();
             this.status.SuspendLayout();
@@ -69,23 +83,42 @@
             this.groupBox2.SuspendLayout();
             this.groupBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.clientViewBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
-            // data_clients
+            // dgv_client
             // 
-            this.data_clients.AllowUserToAddRows = false;
-            this.data_clients.AllowUserToDeleteRows = false;
-            this.data_clients.AllowUserToResizeColumns = false;
-            this.data_clients.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tableLayout.SetColumnSpan(this.data_clients, 2);
-            this.data_clients.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.data_clients.Location = new System.Drawing.Point(3, 3);
-            this.data_clients.MultiSelect = false;
-            this.data_clients.Name = "data_clients";
-            this.tableLayout.SetRowSpan(this.data_clients, 2);
-            this.data_clients.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.data_clients.Size = new System.Drawing.Size(784, 505);
-            this.data_clients.TabIndex = 0;
+            this.dgv_client.AllowUserToAddRows = false;
+            this.dgv_client.AllowUserToDeleteRows = false;
+            this.dgv_client.AllowUserToResizeColumns = false;
+            this.dgv_client.AutoGenerateColumns = false;
+            this.dgv_client.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_client.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.iDDataGridViewTextBoxColumn,
+            this.firstNameDataGridViewTextBoxColumn,
+            this.lastNameDataGridViewTextBoxColumn,
+            this.patronymicDataGridViewTextBoxColumn,
+            this.nameDataGridViewTextBoxColumn,
+            this.birthdayDataGridViewTextBoxColumn,
+            this.phoneDataGridViewTextBoxColumn,
+            this.emailDataGridViewTextBoxColumn,
+            this.registrationDateDataGridViewTextBoxColumn,
+            this.dateLastVisitDataGridViewTextBoxColumn,
+            this.countVisitDataGridViewTextBoxColumn,
+            this.titleDataGridViewTextBoxColumn});
+            this.tableLayout.SetColumnSpan(this.dgv_client, 2);
+            this.dgv_client.DataSource = this.clientViewBindingSource;
+            this.dgv_client.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_client.Location = new System.Drawing.Point(3, 3);
+            this.dgv_client.MultiSelect = false;
+            this.dgv_client.Name = "dgv_client";
+            this.dgv_client.ReadOnly = true;
+            this.tableLayout.SetRowSpan(this.dgv_client, 2);
+            this.dgv_client.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgv_client.Size = new System.Drawing.Size(784, 505);
+            this.dgv_client.TabIndex = 0;
+            this.dgv_client.TabStop = false;
+            this.dgv_client.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.data_clients_DataBindingComplete);
             // 
             // tableLayout
             // 
@@ -101,7 +134,7 @@
             this.tableLayout.Controls.Add(this.status, 0, 4);
             this.tableLayout.Controls.Add(this.btn_update, 3, 3);
             this.tableLayout.Controls.Add(this.panel1, 2, 0);
-            this.tableLayout.Controls.Add(this.data_clients, 0, 0);
+            this.tableLayout.Controls.Add(this.dgv_client, 0, 0);
             this.tableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayout.Location = new System.Drawing.Point(0, 0);
             this.tableLayout.Name = "tableLayout";
@@ -153,6 +186,7 @@
             this.num_countRowsOnPage.Name = "num_countRowsOnPage";
             this.num_countRowsOnPage.Size = new System.Drawing.Size(88, 22);
             this.num_countRowsOnPage.TabIndex = 3;
+            this.num_countRowsOnPage.ValueChanged += new System.EventHandler(this.num_countRowsOnPage_ValueChanged);
             // 
             // label1
             // 
@@ -499,6 +533,95 @@
             this.btn_add.UseVisualStyleBackColor = true;
             this.btn_add.Click += new System.EventHandler(this.btn_add_Click);
             // 
+            // iDDataGridViewTextBoxColumn
+            // 
+            this.iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
+            this.iDDataGridViewTextBoxColumn.HeaderText = "ID";
+            this.iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
+            this.iDDataGridViewTextBoxColumn.ReadOnly = true;
+            this.iDDataGridViewTextBoxColumn.Visible = false;
+            // 
+            // firstNameDataGridViewTextBoxColumn
+            // 
+            this.firstNameDataGridViewTextBoxColumn.DataPropertyName = "FirstName";
+            this.firstNameDataGridViewTextBoxColumn.HeaderText = "Имя";
+            this.firstNameDataGridViewTextBoxColumn.Name = "firstNameDataGridViewTextBoxColumn";
+            this.firstNameDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // lastNameDataGridViewTextBoxColumn
+            // 
+            this.lastNameDataGridViewTextBoxColumn.DataPropertyName = "LastName";
+            this.lastNameDataGridViewTextBoxColumn.HeaderText = "Фамилия";
+            this.lastNameDataGridViewTextBoxColumn.Name = "lastNameDataGridViewTextBoxColumn";
+            this.lastNameDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // patronymicDataGridViewTextBoxColumn
+            // 
+            this.patronymicDataGridViewTextBoxColumn.DataPropertyName = "Patronymic";
+            this.patronymicDataGridViewTextBoxColumn.HeaderText = "Отчество";
+            this.patronymicDataGridViewTextBoxColumn.Name = "patronymicDataGridViewTextBoxColumn";
+            this.patronymicDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // nameDataGridViewTextBoxColumn
+            // 
+            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
+            this.nameDataGridViewTextBoxColumn.HeaderText = "Пол";
+            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            this.nameDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // birthdayDataGridViewTextBoxColumn
+            // 
+            this.birthdayDataGridViewTextBoxColumn.DataPropertyName = "Birthday";
+            this.birthdayDataGridViewTextBoxColumn.HeaderText = "День рождения";
+            this.birthdayDataGridViewTextBoxColumn.Name = "birthdayDataGridViewTextBoxColumn";
+            this.birthdayDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // phoneDataGridViewTextBoxColumn
+            // 
+            this.phoneDataGridViewTextBoxColumn.DataPropertyName = "Phone";
+            this.phoneDataGridViewTextBoxColumn.HeaderText = "Телефон";
+            this.phoneDataGridViewTextBoxColumn.Name = "phoneDataGridViewTextBoxColumn";
+            this.phoneDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // emailDataGridViewTextBoxColumn
+            // 
+            this.emailDataGridViewTextBoxColumn.DataPropertyName = "Email";
+            this.emailDataGridViewTextBoxColumn.HeaderText = "Email";
+            this.emailDataGridViewTextBoxColumn.Name = "emailDataGridViewTextBoxColumn";
+            this.emailDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // registrationDateDataGridViewTextBoxColumn
+            // 
+            this.registrationDateDataGridViewTextBoxColumn.DataPropertyName = "RegistrationDate";
+            this.registrationDateDataGridViewTextBoxColumn.HeaderText = "Дата регистрации";
+            this.registrationDateDataGridViewTextBoxColumn.Name = "registrationDateDataGridViewTextBoxColumn";
+            this.registrationDateDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // dateLastVisitDataGridViewTextBoxColumn
+            // 
+            this.dateLastVisitDataGridViewTextBoxColumn.DataPropertyName = "DateLastVisit";
+            this.dateLastVisitDataGridViewTextBoxColumn.HeaderText = "Дата последнего посещения";
+            this.dateLastVisitDataGridViewTextBoxColumn.Name = "dateLastVisitDataGridViewTextBoxColumn";
+            this.dateLastVisitDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // countVisitDataGridViewTextBoxColumn
+            // 
+            this.countVisitDataGridViewTextBoxColumn.DataPropertyName = "CountVisit";
+            this.countVisitDataGridViewTextBoxColumn.HeaderText = "Количество посещений";
+            this.countVisitDataGridViewTextBoxColumn.Name = "countVisitDataGridViewTextBoxColumn";
+            this.countVisitDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // titleDataGridViewTextBoxColumn
+            // 
+            this.titleDataGridViewTextBoxColumn.DataPropertyName = "Title";
+            this.titleDataGridViewTextBoxColumn.HeaderText = "Tag";
+            this.titleDataGridViewTextBoxColumn.Name = "titleDataGridViewTextBoxColumn";
+            this.titleDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // clientViewBindingSource
+            // 
+            this.clientViewBindingSource.DataSource = typeof(SchoolsLanguage.Classes.ClientView);
+            // 
             // Clients
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -507,7 +630,7 @@
             this.Name = "Clients";
             this.Size = new System.Drawing.Size(989, 591);
             this.Load += new System.EventHandler(this.Clients_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.data_clients)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_client)).EndInit();
             this.tableLayout.ResumeLayout(false);
             this.tableLayout.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_countRowsOnPage)).EndInit();
@@ -521,13 +644,14 @@
             this.groupBox.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.clientViewBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.DataGridView data_clients;
+        private System.Windows.Forms.DataGridView dgv_client;
         private System.Windows.Forms.TableLayoutPanel tableLayout;
         private System.Windows.Forms.Button btn_prev;
         private System.Windows.Forms.Button btn_next;
@@ -559,5 +683,18 @@
         private System.Windows.Forms.Button btn_edit;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btn_add;
+        private System.Windows.Forms.BindingSource clientViewBindingSource;
+        private System.Windows.Forms.DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn firstNameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn lastNameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn patronymicDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn birthdayDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn phoneDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn emailDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn registrationDateDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dateLastVisitDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn countVisitDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn titleDataGridViewTextBoxColumn;
     }
 }
